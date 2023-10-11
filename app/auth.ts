@@ -15,10 +15,25 @@ export const authConfig: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                if(!credentials || !credentials.username || !credentials.password){
+
+                const postRequest = await fetch("/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body:JSON.stringify({
+                        username: credentials?.username,
+                        password: credentials?.password
+                    }),
+                });
+
+                const user = await postRequest.json();
+
+                if(user){
+                    return user;
+                } else {
                     return null;
-                } 
-                return null;
+                }
         
             },
         }),
