@@ -3,6 +3,7 @@ import CredentialsProvider  from "next-auth/providers/credentials"
 import { NextAuthOptions } from "next-auth"
 
 const authConfig: NextAuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             name: "credentials",
@@ -40,6 +41,17 @@ const authConfig: NextAuthOptions = {
 
         
     ],
+    callbacks: {
+        async jwt({token, user}){
+            
+            return { ...token, ...user};
+        },
+
+        async session({ session, token }) {
+            session.user = token as any;
+            return session;
+        }
+    }
 };
 const handler = NextAuth(authConfig)
 

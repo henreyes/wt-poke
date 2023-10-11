@@ -4,18 +4,20 @@ import React from 'react'
 import { signIn } from "next-auth/react";
 
 function SignInButton() {
-    const{ data: session } = useSession();
-
+    const { data: session, status } = useSession()
+   
     if (session && session.user){
+        console.log(session?.user)
         return (
             <div>
-                <p>{session.user.name}</p>
-                <button onClick={()=> signOut()}>Sign out</button>
+                <p className="text-white text-lg">{session.user.username}</p>
+                <button onClick={(e)=> {
+                   e.preventDefault(); signOut()}}>Sign out</button>
             </div>
         );
     }
   return (
-    <button className="mb-3 text-2xl font-semibold" onClick={() => signIn()}>
+    <button className="mb-3 text-2xl font-semibold" onClick={(e) => {e.preventDefault();signIn()}}>
         Sign in
     </button>
   )
