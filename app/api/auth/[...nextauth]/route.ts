@@ -16,7 +16,7 @@ const authConfig: NextAuthOptions = {
             },
             async authorize(credentials) {
 
-                const postRequest = await fetch("/api/login", {
+                const postRequest = await fetch("http://localhost:3000/api/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
