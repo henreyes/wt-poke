@@ -1,5 +1,5 @@
 
-import SignInButton from '@/components/SignInButton'
+import SignInButton from '@/src/components/SignInButton'
 import Image from 'next/image'
 
 export default function Home() {
