@@ -17,7 +17,7 @@ const authConfig: NextAuthOptions = {
             },
             async authorize(credentials) {
 
-                const postRequest = await fetch("https://wtpoke.vercel.app/api/login", {
+                const postRequest = await fetch("api/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
