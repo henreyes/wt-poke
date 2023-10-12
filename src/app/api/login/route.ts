@@ -17,6 +17,7 @@ interface RequestBody {
 
         }
     })
+    
 
     if(user && ( await bcrypt.compare(body.password, user.password))){
         const {password, ...userWithoutPass} = user;
