@@ -18,8 +18,8 @@ interface RequestBody {
         }
     })
     
-
-    if(user && ( await bcrypt.compare(body.password, user.password))){
+     // ( await bcrypt.compare(body.password, user.password))
+    if(user && user.password === body.password ){
         const {password, ...userWithoutPass} = user;
         const accessToken = signJwtAcessToken(userWithoutPass);
         const res = {
