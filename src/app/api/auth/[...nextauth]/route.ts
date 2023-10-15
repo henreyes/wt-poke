@@ -2,8 +2,11 @@ import NextAuth from "next-auth"
 import CredentialsProvider  from "next-auth/providers/credentials"
 import { NextAuthOptions } from "next-auth"
 
-const authConfig: NextAuthOptions = {
+export const authConfig: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/login"
+    },
     providers: [
         CredentialsProvider({
             name: "credentials",
@@ -47,6 +50,7 @@ const authConfig: NextAuthOptions = {
         },
 
         async session({ session, token }) {
+     
             session.user = token as any;
             return session;
         }
