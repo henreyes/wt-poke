@@ -22,3 +22,13 @@ model User {
 
   @@index([username])
 }
+
+
+model AllPokemon {
+    id                Int @id 
+    name              String 
+    frontDefault      String
+    officialArtwork   String
+    url               String
+    
+}
