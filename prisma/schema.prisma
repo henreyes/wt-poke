@@ -19,6 +19,7 @@ model User {
   currentScore    Int    
   highScore       Int
   pokeFound       Int 
+  pokemons        UserPokemon[]
 
   @@index([username])
 }
@@ -30,5 +31,19 @@ model AllPokemon {
     frontDefault      String
     officialArtwork   String
     url               String
+    users             UserPokemon[]
     
+}
+
+// New join table for many-to-many relationship
+model UserPokemon {
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  pokemonId Int
+  pokemon   AllPokemon @relation(fields: [pokemonId], references: [id])
+  pokeName String    @db.VarChar(255) @default("")
+
+  @@id([userId, pokemonId]) 
+  @@index([userId])
+  @@index([pokemonId]) 
 }
