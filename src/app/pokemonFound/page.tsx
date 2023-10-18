@@ -46,33 +46,42 @@ export default async function page() {
     if(session){
     
         return (
-            <div className="min-h-screen bg-gray-500 py-6 flex flex-col justify-center sm:py-12">
-              <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-                <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-                  <div className="max-w-md mx-auto">
-                    <div className="text-center">
-                      <h2 className="text-3xl font-semibold text-gray-800">{session?.user.username}'s' stats</h2>
-                      <p className="mt-2 text-sm text-gray-500">Tailwind CSS example with React TypeScript</p>
-                    </div>
-                    <div className="mt-8">
-                      <p className="text-base text-gray-700">Pokemon found: {user?.pokemons.length}</p>
-                      {userPokemons.map((pokemon) => (
-                            <div key={pokemon.id} className="card">
-                                <h1 className="text-green-600">{pokemon.name}</h1>
-                                <img src={pokemon?.frontDefault} alt=""></img>
-                              
-                            </div>
-                        ))}
-                    </div>
-                      <div>
-                    <div>
-   
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+            <>
+  <nav className="bg-blue-900 text-white shadow-lg">
+      <div className="container mx-auto flex justify-between items-center py-6 px-4 md:px-0">
+        <div>
+          <button
+         
+            className="text-white text-lg font-semibold focus:outline-none"
+          >
+            Who's that Pokémon
+          </button>
+        </div>
+        <div className="text-center font-bold text-lg">{user.username}</div>
+        <div>
+          <button
+           
+            className="text-white text-lg font-semibold bg-red-500 hover:bg-red-700 transition duration-200 ease-in-out rounded focus:outline-none"
+          >
+            Log Out
+          </button>
+        </div>
+      </div>
+    </nav>
+           
+    <div className="mt-12 w-full px-4">
+        <h2 className="text-3xl font-extrabold text-yellow-500 mb-6">Pokémon Found:</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {userPokemons.map((pokemon) => (
+            <div key={pokemon.id} className="flex flex-col items-center bg-white p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105">
+                <h1 className="text-lg font-bold text-gray-900">{pokemon.name}</h1>
+                <img src={pokemon?.frontDefault} alt="" className="mt-2 w-32 h-32 object-contain"/>
             </div>
-            </div>
+            ))}
+         </div>
+        </div>
+            </>
           );
 
 
