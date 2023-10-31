@@ -3,9 +3,6 @@ import SignInButton from '@/src/components/SignInButton'
 import { getServerSession } from 'next-auth';
 import Image from 'next/image'
 import Link from 'next/link'
-import Logout from './logout';
-import LoginModal from './HomeComponents/LoginModal';
-import RegisterModal from './HomeComponents/RegisterModal';
 
 export default async function Home() {
   const session = await getServerSession();
@@ -33,7 +30,7 @@ export default async function Home() {
         We need your username to keep track of the leaderboard.
       </p>
     </div>
-      <Link href={'#'} className="inline-block bg-blue-500 text-white text-xl px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">Play Game</Link>
+      <Link href={'/game'} className="inline-block bg-blue-500 text-white text-xl px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">Play Game</Link>
        
 
     </main>
