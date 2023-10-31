@@ -1,11 +1,13 @@
 "use client"
+import Link from 'next/link'
 import React from 'react'
 
 export default function game() {
   return (
-    <div className='flex min-h-screen flex-col items-center  bg-gray-950 '>
-      <div>
-        
+    <div className='flex min-h-screen flex-col items-center  bg-gray-900 '>
+      <div className='w-3/4 py-2 mt-2 mb-10 bg-slate-800 rounded-2xl flex flex-row items-center justify-center'>
+          <Link href={'/'} className='px-5 mr-10 font-bold'>Home</Link>
+          <Link href={'/'} className='px-5 mr-10 font-bold'>Leaderboard</Link>
       </div>
       <div className='flex justify-evenly min-w-full py-7'>
         <div>Pokemon found</div>
