@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     
     const body:RequestBody = await request.json();
 
-    const user = await prisma.user.findFirst({
+    const pokemon = await prisma.user.findFirst({
         where: {
             id: body.id,
 
@@ -18,6 +18,6 @@ export async function GET(request: Request) {
     })
 
    
-    return new Response(JSON.stringify(user));
+    return new Response(JSON.stringify(pokemon));
 
 }

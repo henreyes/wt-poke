@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 export default async function RegisterPage() {
   const session = await getServerSession();
   if (session) {
-    redirect('/');
+    redirect(`/user/${session.user.username}`);
   }
   return <Form />;
 }
