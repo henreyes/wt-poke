@@ -7,6 +7,10 @@ import Link from 'next/link'
 export default async function Home() {
   const session = await getServerSession();
 
+  function createQueryString(arg0: string, arg1: string) {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <main className="flex min-h-screen flex-col justify-center items-center  bg-gray-950 ">
       <div className="  flex flex-col min-w-full rounded-xl items-center py-10 text-gray-300 ">
@@ -30,7 +34,7 @@ export default async function Home() {
         We need your username to keep track of the leaderboard.
       </p>
     </div>
-      <Link href={'/game'} className="inline-block bg-blue-500 text-white text-xl px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">Play Game</Link>
+      <Link href={`/user/testUser`}  className="inline-block bg-blue-500 text-white text-xl px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">Play Game</Link>
        
 
     </main>
