@@ -6,11 +6,11 @@ interface RequestBody {
 }
 
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
     
     const body:RequestBody = await request.json();
 
-    const pokemon = await prisma.user.findFirst({
+    const pokemon = await prisma.allPokemon.findFirst({
         where: {
             id: body.id,
 
