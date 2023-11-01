@@ -7,9 +7,6 @@ import Link from 'next/link'
 export default async function Home() {
   const session = await getServerSession();
 
-  function createQueryString(arg0: string, arg1: string) {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <main className="flex min-h-screen flex-col justify-center items-center  bg-gray-950 ">
