@@ -3,7 +3,7 @@ import { getStats } from "./_actions";
 
 
 export default async function GameHome({ params }: { params: { username: string, id: number } }){
-  const userStats = await getStats("test");
+  const userStats = await getStats(params.username);
   console.log(userStats);
   
   function getRandomNumber(min: number, max: number) {
@@ -16,7 +16,7 @@ export default async function GameHome({ params }: { params: { username: string,
     <>
       <div>{userStats?.username}</div>
       <div>Poke found: {userStats?.pokeFound}</div>
-      <GameComponent params={{ username: "",  id: randomNumber  }} />
+      <GameComponent params={{ username: params.username,  id: randomNumber }} />
     </>
   )
 }

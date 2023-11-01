@@ -9,8 +9,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [pokemon, setPokemon] = useState<AllPokemon>();
     const [guess, setGuess] = useState<String>("");
     const [score, setScore] = useState<Number[]>([]);
-    const router = useRouter()
-    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     useEffect(()=>{
         console.log("hello in effect")
@@ -56,8 +55,8 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
   return (
     <>
-     <div className='flex min-h-screen flex-col items-center  bg-gray-900 '>
-      <div className='w-3/4 py-2 mt-2 mb-10 bg-slate-800 rounded-2xl flex flex-row items-center justify-center'>
+     <div className='flex min-h-screen flex-col items-center  bg-gray-500 '>
+      <div className='w-3/4 py-2 mt-2 mb-10 bg-slate-400 rounded-2xl flex flex-row items-center justify-center'>
           <Link href={'/'} className='px-5 mr-10 font-bold'>Home</Link>
           <Link href={'/'} className='px-5 mr-10 font-bold'>Leaderboard</Link>
       </div>
@@ -67,7 +66,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
         <div>Timer</div>
         <div>Attempts</div>
       </div>
-      <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-white rounded shadow-lg">
+      <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-gray-400 rounded shadow-lg">
       <div className="flex justify-center">
       {pokemon && <img src={pokemon?.frontDefault}></img>}
       </div>
