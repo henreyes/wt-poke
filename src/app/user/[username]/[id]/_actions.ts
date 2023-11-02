@@ -27,3 +27,17 @@ export async function updatePokeFound(username: string, pokeId: number){
     revalidatePath("/");
     return updatedUser;
 }
+
+export async function getPokemon(pokeId: number) {
+    const pokemon = await prisma.allPokemon.findFirst({
+        where: {
+            id: pokeId
+
+        }
+    })
+
+    return pokemon;
+
+}
+
+  
