@@ -9,10 +9,24 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [startGame, setGame] = useState<Boolean>(false);
     const [pokemon, setPokemon] = useState<AllPokemon | null >(null);
     const [guess, setGuess] = useState<String>("");
-    const [attempts, setAttemps] = useState<Number>(3);
+    // todo, local storage 
+    //const [attempts, setAttemps] = useState<number>(3);
+    const [attempts, setAttemps] = useState<number>(3);
+      
     const [gameOver, setGameOVer] = useState<Boolean>(false);
     const [result, setResult] = useState<Boolean | null>(null)
+    
+    useEffect(() => {
+        const savedState = localStorage.getItem('attempts');
+        if(!savedState){
+            localStorage.setItem('attempts', attempts.toString());
+        }
+        setAttemps(  Number(savedState) );
 
+    },[]);
+        
+    
+        
     const router = useRouter();
 
     function getRandomNumber(min: number, max: number) {
@@ -40,9 +54,13 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
         setPokemon(data)
       })
+
       setGame(true);
+    
 
     }
+
+  
 
 
   function rerouteClient()  {
@@ -62,7 +80,12 @@ export default function pokeid({ params }: { params: { username: string, id: num
     } else {
         console.log("Incorrect Guess.");
         setResult(false)
-        setAttemps((attempts) => Number(attempts) - 1);
+        setAttemps((attempt) => {
+            const newat = attempt - 1;
+            localStorage.setItem('attempts', newat.toString());
+            return newat
+        });
+        
         if(attempts === 1){
             setGameOVer(true);
             console.log("game over")
