@@ -9,9 +9,10 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [startGame, setGame] = useState<Boolean>(false);
     const [pokemon, setPokemon] = useState<AllPokemon | null >(null);
     const [guess, setGuess] = useState<String>("");
-    const [score, setScore] = useState<Number[]>([]);
-    const [correct, setCorrect] = useState<Boolean>(false);
-    const [incorrect, setIncorrect] = useState<Boolean>(false);
+    const [attempts, setAttemps] = useState<Number>(3);
+    const [gameOver, setGameOVer] = useState<Boolean>(false);
+    const [result, setResult] = useState<Boolean | null>(null)
+
     const router = useRouter();
 
     function getRandomNumber(min: number, max: number) {
@@ -22,6 +23,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
     function resetStats () {
         console.log("rest stats")
+        setResult(null);
         router.push(`/user/test/${ getRandomNumber(1, 100)}`)
 
     }
@@ -53,19 +55,26 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
     if (pokemon && guess.toLowerCase() === pokemon.name.toLowerCase()) {
         console.log("Correct Guess!");
-        setScore(score => [...score, pokemon.id]);
+        //setScore(score => [...score, pokemon.id]);
         updatePokeFound("test", pokemon.id);
-        setCorrect(true);
+        setResult(true);
       
     } else {
         console.log("Incorrect Guess.");
-        setIncorrect(true);
+        setResult(false)
+        setAttemps((attempts) => Number(attempts) - 1);
+        if(attempts === 1){
+            setGameOVer(true);
+            console.log("game over")
+        }
+       
     }
     
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     setGuess(event.target.value);
+    setResult(null);
   }
 
 
@@ -77,18 +86,18 @@ export default function pokeid({ params }: { params: { username: string, id: num
           <Link href={'/'} className='px-5 mr-10 font-bold'>Home</Link>
           <Link href={'/'} className='px-5 mr-10 font-bold'>Leaderboard</Link>
       </div>
-      <div className='flex justify-evenly min-w-full py-7'>
-        <div>Pokemon found: {score.length}</div>
-        <div>{params.username}</div>    
-        <div>Timer</div>
-        <div>Attempts</div>
+      <div className='flex justify-evenly min-w-full py-7'>   
+        <div>timer</div>
+        <div>attempts left: {attempts.toString()} </div>
+        {gameOver && <div className="bg-orange-400 text-bold text-orange-700 rounded-lg p-2">game over!</div>}
       </div>
+     
       <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-800 rounded shadow-lg">
       <div className="flex justify-center">
       {pokemon && <img src={pokemon?.frontDefault}></img>}
       </div>
 
-      <form onSubmit={checkUserGuess}>
+      <form className="flex flex-col ml-50 " onSubmit={checkUserGuess}>
       <div className="mt-6">
         <label htmlFor="pokemon-guess" className="block text-gray-300 text-sm font-bold mb-2">
           Guess the Pokémon:
@@ -109,8 +118,8 @@ export default function pokeid({ params }: { params: { username: string, id: num
         </button>
       </div>
       </form>
-      {correct && <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-500 w-1/2 text-center">Correct!</div> }
-      {incorrect && <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-500 w-1/2 text-center">Not quite!</div> }
+      {result && <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-500 w-1/2 text-center">Correct!</div> }
+      {result === false && <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-500 w-1/2 text-center">Not quite!</div> }
     </div>
    
     <div className='flex flex-row '>
