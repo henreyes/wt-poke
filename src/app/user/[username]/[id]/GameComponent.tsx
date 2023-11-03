@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { AllPokemon } from '@prisma/client'
 import Link from 'next/link'
 import { getPokemon, updatePokeFound } from './_actions'
+import CountdownBar from './Countdown'
 
 export default function pokeid({ params }: { params: { username: string, id: number } }) {
     const [startGame, setGame] = useState<Boolean>(false);
@@ -99,64 +100,73 @@ export default function pokeid({ params }: { params: { username: string, id: num
     setGuess(event.target.value);
     setResult(null);
   }
+return (
+  <>
+          <div className='min-h-screen flex flex-col items-center bg-slate-800'>
+            <div className='w-3/4 py-2 mt-2 mb-10 bg-indigo-700 rounded-2xl flex flex-row items-center justify-center shadow-lg'>
+                <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Home</Link>
+                <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Leaderboard</Link>
+            </div>
 
+            <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md space-y-5">
+                <div className="w-full h-4 rounded overflow-hidden">
+                    <CountdownBar onEnd={() => {
+                        console.log("Time's up!");
+                        setGameOVer(true);
+                    }} />
+                </div>
+                <div className="font-bold text-indigo-200">attempts left: {attempts.toString()}</div>
+                {gameOver && <div className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg">game over!</div>}
+            </div>
 
+                <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md">
+                    <div className="flex justify-center mb-5">
+                        {pokemon && <img src={pokemon?.frontDefault}></img>}
+                    </div>
 
-  return (
-    <>
-     <div className='flex min-h-screen flex-col items-center  bg-gray-500 '>
-      <div className='w-3/4 py-2 mt-2 mb-10 bg-slate-400 rounded-2xl flex flex-row items-center justify-center'>
-          <Link href={'/'} className='px-5 mr-10 font-bold'>Home</Link>
-          <Link href={'/'} className='px-5 mr-10 font-bold'>Leaderboard</Link>
-      </div>
-      <div className='flex justify-evenly min-w-full py-7'>   
-        <div>timer</div>
-        <div>attempts left: {attempts.toString()} </div>
-        {gameOver && <div className="bg-orange-400 text-bold text-orange-700 rounded-lg p-2">game over!</div>}
-      </div>
-     
-      <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-800 rounded shadow-lg">
-      <div className="flex justify-center">
-      {pokemon && <img src={pokemon?.frontDefault}></img>}
-      </div>
+                    <form className="flex flex-col" onSubmit={checkUserGuess}>
+                        <div className="mt-6">
+                            <label htmlFor="pokemon-guess" className="block text-gray-400 text-sm font-medium mb-2">
+                                Guess the Pokémon:
+                            </label>
+                            <input 
+                                type="text" 
+                                id="pokemon-guess" 
+                                placeholder="Enter Pokémon name" 
+                                className="w-full px-3 py-2 text-gray-200 bg-slate-600 border rounded-md focus:outline-none focus:border-indigo-500"
+                                onChange={handleInputChange}
+                            />
+                        </div>
 
-      <form className="flex flex-col ml-50 " onSubmit={checkUserGuess}>
-      <div className="mt-6">
-        <label htmlFor="pokemon-guess" className="block text-gray-300 text-sm font-bold mb-2">
-          Guess the Pokémon:
-        </label>
-        <input 
-        type="text" 
-        id="pokemon-guess" 
-        placeholder="Enter Pokémon name" 
-        className="w-1/2 px-3 py-2 text-gray-800 border rounded-md focus:outline-none focus:border-blue-500"
-        onChange={handleInputChange}
-/>
-      </div>
+                        <div className="mt-4">
+                            <button className="w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:bg-indigo-800"
+                                    type='submit'>
+                                Guess
+                            </button>
+                        </div>
+                    </form>
 
-      <div className="mt-4">
-        <button className="w-1/2 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700"
-            type='submit'>
-          Guess
-        </button>
-      </div>
-      </form>
-      {result && <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-500 w-1/2 text-center">Correct!</div> }
-      {result === false && <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-500 w-1/2 text-center">Not quite!</div> }
-    </div>
-   
-    <div className='flex flex-row '>
-        <button className="p-3 bg-slate-500 rounded-lg mt-5 hover:bg-slate-700" onClick={rerouteClient}>Reroute</button>
-        <button className="p-3 bg-amber-500 rounded-lg mt-5 hover:bg-amber-700" onClick={resetStats}>Next poke</button>
-    </div>
-   
+                    {result && (
+                    <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-400 w-full text-center font-bold shadow-xl transform transition-all duration-300 hover:scale-105">
+                        Correct!
+                    </div>
+                    )}
+                    {result === false && (
+                    <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-400 w-full text-center font-bold shadow-xl transform transition-all duration-300 hover:scale-105">
+                        Not quite!
+                    </div>
+                    )}
+                </div>
 
-  
-    </div>
-
-   
-    </>
-  )
+                <div className='flex flex-row mt-6 gap-4'>
+                    <button className="p-3 bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:outline-none focus:bg-indigo-900" onClick={rerouteClient}>Reroute</button>
+                    <button className="p-3 bg-yellow-600 rounded-lg hover:bg-yellow-700 focus:outline-none focus:bg-yellow-800" onClick={resetStats}>Next poke</button>
+                </div>
+            </div>
+        </>
+)
 }
+  
+
 
 
