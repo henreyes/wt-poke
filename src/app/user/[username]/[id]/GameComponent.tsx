@@ -11,6 +11,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [guess, setGuess] = useState<String>("");
     const [score, setScore] = useState<Number[]>([]);
     const [correct, setCorrect] = useState<Boolean>(false);
+    const [incorrect, setIncorrect] = useState<Boolean>(false);
     const router = useRouter();
 
     function getRandomNumber(min: number, max: number) {
@@ -21,7 +22,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
     function resetStats () {
         console.log("rest stats")
-        router.push('/user/test/5')
+        router.push(`/user/test/${ getRandomNumber(1, 100)}`)
 
     }
 
@@ -58,6 +59,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
       
     } else {
         console.log("Incorrect Guess.");
+        setIncorrect(true);
     }
     
   }
@@ -81,21 +83,21 @@ export default function pokeid({ params }: { params: { username: string, id: num
         <div>Timer</div>
         <div>Attempts</div>
       </div>
-      <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-gray-400 rounded shadow-lg">
+      <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-800 rounded shadow-lg">
       <div className="flex justify-center">
       {pokemon && <img src={pokemon?.frontDefault}></img>}
       </div>
 
       <form onSubmit={checkUserGuess}>
       <div className="mt-6">
-        <label htmlFor="pokemon-guess" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="pokemon-guess" className="block text-gray-300 text-sm font-bold mb-2">
           Guess the Pokémon:
         </label>
         <input 
         type="text" 
         id="pokemon-guess" 
         placeholder="Enter Pokémon name" 
-        className="w-1/2 px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:border-blue-500"
+        className="w-1/2 px-3 py-2 text-gray-800 border rounded-md focus:outline-none focus:border-blue-500"
         onChange={handleInputChange}
 />
       </div>
@@ -107,7 +109,8 @@ export default function pokeid({ params }: { params: { username: string, id: num
         </button>
       </div>
       </form>
-      {correct && <button className='bg-green-700 text-gray-800 p-5 rounded:2xl '>Correct!</button> }
+      {correct && <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-500 w-1/2 text-center">Correct!</div> }
+      {incorrect && <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-500 w-1/2 text-center">Not quite!</div> }
     </div>
    
     <div className='flex flex-row '>
