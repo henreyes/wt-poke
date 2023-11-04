@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd }) => {
-  const [timeLeft, setTimeLeft] = useState(duration * 1000); // now in milliseconds
+  const [timeLeft, setTimeLeft] = useState(duration * 10000); // now in milliseconds
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -23,7 +23,7 @@ const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd }) => {
     return () => clearInterval(intervalId);
   }, [timeLeft, onEnd]);
 
-  const percentage = (timeLeft / (duration * 1000)) * 100;  
+  const percentage = (timeLeft / (duration * 10000)) * 100;  
 
 
   const determineColor = (percentage: number) => {

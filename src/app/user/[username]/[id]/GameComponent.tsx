@@ -48,15 +48,13 @@ export default function pokeid({ params }: { params: { username: string, id: num
                 id: Number(params.id)
             }),
         })
-      .then((res) => res.json())
-      .then((data) => {
+      .then((res) => res.json()).then((data) => {
 
         setPokemon(data)
       })
 
       setGame(true);
     
-
     }
 
   function rerouteClient()  {console.log("button works");}
@@ -122,7 +120,7 @@ return (
                     <span className="text-white font-bold text-4xl">Game Over</span>
                     <div className="text-indigo-200 mt-10">
                         You found <span className='font-bold'>{params.pokeFound} </span>pokemon!
-                        <Link href={"/"} className='text-indigo-400 px-2'>Click here to view</Link>
+                        <Link href={`/user/${params.username}/found/`} className='text-indigo-400 px-2 hover:font-bold'>Click here to view</Link>
                      </div>
                     </div>
                 )}
