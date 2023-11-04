@@ -5,6 +5,7 @@ import { AllPokemon } from '@prisma/client'
 import Link from 'next/link'
 import { getPokemon, updatePokeFound } from './_actions'
 import CountdownBar from './Countdown'
+import CircularCountdown from './Countdown'
 
 export default function pokeid({ params }: { params: { username: string, id: number } }) {
     const [startGame, setGame] = useState<Boolean>(false);
@@ -110,7 +111,7 @@ return (
 
             <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md space-y-5">
                 <div className="w-full h-4 rounded overflow-hidden">
-                    <CountdownBar onEnd={() => {
+                    <CircularCountdown onEnd={() => {
                         console.log("Time's up!");
                         setGameOVer(true);
                     }} />
