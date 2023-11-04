@@ -7,7 +7,7 @@ interface Props {
   onEnd?: () => void;
 }
 
-const CountdownBar: React.FC<Props> = ({ duration = 15, onEnd }) => {
+const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd }) => {
   const [timeLeft, setTimeLeft] = useState(duration * 1000); // now in milliseconds
 
   useEffect(() => {
