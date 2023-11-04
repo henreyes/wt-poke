@@ -37,7 +37,7 @@ const CountdownBar: React.FC<Props> = ({ duration = 15, onEnd }) => {
   const barColor = determineColor(percentage);
 
   return (
-    <div className="relative w-1/4 h-4 bg-gray-200 rounded">
+    <div className="relative w-full h-5 bg-slate-600 rounded">
       <div
         className={`absolute top-0 left-0 h-full transition-all duration-300 rounded ${barColor}`}
         style={{ width: `${percentage}%` }}
