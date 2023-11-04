@@ -5,14 +5,13 @@ import { AllPokemon } from '@prisma/client'
 import Link from 'next/link'
 import { getPokemon, updatePokeFound } from './_actions'
 import CountdownBar from './Countdown'
-import CircularCountdown from './Countdown'
+import AttemptsIndicator from './Attempts'
 
-export default function pokeid({ params }: { params: { username: string, id: number } }) {
+export default function pokeid({ params }: { params: { username: string, id: number, pokeFound: number} }) {
     const [startGame, setGame] = useState<Boolean>(false);
     const [pokemon, setPokemon] = useState<AllPokemon | null >(null);
     const [guess, setGuess] = useState<String>("");
-    // todo, local storage 
-    //const [attempts, setAttemps] = useState<number>(3);
+
     const [attempts, setAttemps] = useState<number>(3);
       
     const [gameOver, setGameOVer] = useState<Boolean>(false);
@@ -26,8 +25,6 @@ export default function pokeid({ params }: { params: { username: string, id: num
         setAttemps(  Number(savedState) );
 
     },[]);
-        
-    
         
     const router = useRouter();
 
@@ -62,13 +59,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
     }
 
-  
-
-
-  function rerouteClient()  {
-    console.log("button works");
-    
-  }
+  function rerouteClient()  {console.log("button works");}
 
   function checkUserGuess(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -108,16 +99,21 @@ return (
                 <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Home</Link>
                 <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Leaderboard</Link>
             </div>
-
-            <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md space-y-5">
-                <div className="w-full h-4 rounded overflow-hidden">
-                    <CircularCountdown onEnd={() => {
+            {gameOver && <div className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg">game over!</div>}
+            <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
+                <div className="w-1/5 h-4 rounded overflow-hidden">
+                    <CountdownBar onEnd={() => {
                         console.log("Time's up!");
                         setGameOVer(true);
                     }} />
+                    
                 </div>
-                <div className="font-bold text-indigo-200">attempts left: {attempts.toString()}</div>
-                {gameOver && <div className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg">game over!</div>}
+                <div className=' w-1/5 h-10 p-1 rounded-lg' >
+                    <AttemptsIndicator attempts={attempts} />
+                </div>
+              
+                <div className="font-bold text-indigo-200">Poke found : {params.pokeFound}</div>
+                
             </div>
 
                 <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md">
