@@ -11,22 +11,21 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [startGame, setGame] = useState<Boolean>(false);
     const [pokemon, setPokemon] = useState<AllPokemon | null >(null);
     const [guess, setGuess] = useState<String>("");
-
     const [attempts, setAttemps] = useState<number>(3);
-      
     const [gameOver, setGameOVer] = useState<Boolean>(false);
     const [result, setResult] = useState<Boolean | null>(null)
+    const router = useRouter();
     
     useEffect(() => {
         const savedState = localStorage.getItem('attempts');
         if(!savedState){
             localStorage.setItem('attempts', attempts.toString());
         }
-        setAttemps(  Number(savedState) );
+        setAttemps(Number(savedState) );
 
     },[]);
         
-    const router = useRouter();
+    
 
     function getRandomNumber(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -92,12 +91,12 @@ export default function pokeid({ params }: { params: { username: string, id: num
   }
 return (
   <>
-          <div className='min-h-screen flex flex-col items-center bg-slate-800'>
+          <div className='min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800'>
             <div className='w-3/4 py-2 mt-2 mb-10 bg-indigo-700 rounded-2xl flex flex-row items-center justify-center shadow-lg'>
                 <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Home</Link>
                 <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Leaderboard</Link>
             </div>
-            {gameOver && <div className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg">game over!</div>}
+
             <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
                 <div className="w-1/5 h-4 rounded overflow-hidden">
                     <CountdownBar onEnd={() => {
@@ -110,8 +109,6 @@ return (
                     <AttemptsIndicator attempts={attempts} />
                 </div>
               
-                <div className="font-bold text-indigo-200">Poke found : {params.pokeFound}</div>
-                
             </div>
 
             <div className=" relative w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md">
