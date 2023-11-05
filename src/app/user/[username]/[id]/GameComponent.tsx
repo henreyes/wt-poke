@@ -15,6 +15,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [gameOver, setGameOVer] = useState<Boolean>(false);
     const [result, setResult] = useState<Boolean | null>(null)
     const [countdownActive, setCountdown] = useState<boolean>(true);
+    const [imageBrightness, setImageBrightness] = useState<number>(0);
     const router = useRouter();
 
     
@@ -123,7 +124,11 @@ return (
                     </div>
                 )}
                 <div className="flex justify-center mb-5">
-                    {pokemon && <img className='w-96 brightness-0' src={pokemon?.officialArtwork}></img>}
+                    {pokemon && <img 
+                                className={`w-96 transition-all duration-500 ${result ? 'brightness-100' : 'brightness-0'}`}
+                                src={pokemon?.officialArtwork}>
+                                
+                                </img>}
                 </div>
 
                 <form className="flex flex-col" onSubmit={checkUserGuess}>
