@@ -15,7 +15,6 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [gameOver, setGameOVer] = useState<Boolean>(false);
     const [result, setResult] = useState<Boolean | null>(null)
     const [countdownActive, setCountdown] = useState<boolean>(true);
-    const [imageBrightness, setImageBrightness] = useState<number>(0);
     const router = useRouter();
 
     
@@ -93,6 +92,17 @@ export default function pokeid({ params }: { params: { username: string, id: num
     setGuess(event.target.value);
     setResult(null);
   }
+
+  const renderGameOverOverlay = () => (
+    <div className="absolute inset-0 bg-slate-800 bg-opacity-80 flex flex-col justify-center items-center backdrop-blur-md z-10">
+      <span className="text-white font-bold text-4xl">Game Over</span>
+      <div className="text-indigo-200 mt-10">
+        You found <span className='font-bold'>{params.pokeFound} </span> Pokémon!
+        <Link href={`/user/${params.username}/found/`} className='text-indigo-400 px-2 hover:underline'>Click here to view</Link>
+      </div>
+    </div>
+  );
+
 return (
   <>
           <div className='min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800'>
@@ -114,15 +124,7 @@ return (
             </div>
 
             <div className=" relative w-full max-w-2xl min-w-min p-8 mx-auto mt-10 bg-slate-700 rounded-lg shadow-md">
-                {gameOver && (
-                    <div className="absolute inset-0 bg-slate-800 bg-opacity-80 flex flex-col justify-center position-relative items-center backdrop-blur-md z-10">
-                    <span className="text-white font-bold text-4xl">Game Over</span>
-                    <div className="text-indigo-200 mt-10">
-                        You found <span className='font-bold'>{params.pokeFound} </span>pokemon!
-                        <Link href={`/user/${params.username}/found/`} className='text-indigo-400 px-2 hover:font-bold'>Click here to view</Link>
-                     </div>
-                    </div>
-                )}
+                {gameOver && renderGameOverOverlay()}
                 <div className="flex justify-center mb-5">
                     {pokemon && <img 
                                 className={`w-96 transition-all duration-500 ${result ? 'brightness-100' : 'brightness-0'}`}
@@ -146,29 +148,28 @@ return (
                     </div>
 
                     <div className="mt-4">
-                        <button className="w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:bg-indigo-800"
+                        <button className="w-full px-4 py-2 text-indigo-200 text-bold bg-slate-800  rounded hover:bg-indigo-700 focus:outline-none focus:bg-indigo-800"
                                 type='submit'>
                             Guess
                         </button>
                     </div>
                 </form>
 
-                {result && (
-                <div className="p-2 mt-3 rounded-2xl border-2 border-green-500 text-green-400 w-full text-center font-bold shadow-xl transform transition-all duration-300 hover:scale-105">
-                    Correct!
-                </div>
-                )}
-                {result === false && (
-                <div className="p-2 mt-3 rounded-2xl border-2 border-rose-500 text-rose-400 w-full text-center font-bold shadow-xl transform transition-all duration-300 hover:scale-105">
-                    Not quite!
-                </div>
-                )}
+                {result !== null && (
+            <div className={`p-2 mt-3 rounded-2xl text-white w-full text-center font-bold shadow-xl transform transition-all duration-300 ${result ? 'bg-green-500 animate-pulse' : 'bg-rose-500 animate-pulse'} `}>
+              {result ? 'Correct!' : 'Not quite, try again!'}
             </div>
-
-            <div className='flex flex-row mt-6 gap-4'>
-                <button className="p-3 bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:outline-none focus:bg-indigo-900" onClick={rerouteClient}>Reroute</button>
-                <button className="p-3 bg-yellow-600 rounded-lg hover:bg-yellow-700 focus:outline-none focus:bg-yellow-800" onClick={resetStats}>Next poke</button>
+          )}
             </div>
+            <div className='flex justify-center mt-6'>
+          <button 
+            className="p-3 bg-yellow-600 rounded-lg hover:bg-yellow-700 focus:outline-none focus:bg-yellow-800 transition-all duration-300 transform hover:scale-105"
+            onClick={resetStats}
+            disabled={Boolean(result)}
+          >
+            Next poke
+          </button>
+        </div>
             </div>
         </>
 )
