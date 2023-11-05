@@ -92,12 +92,9 @@ export default function pokeid({ params }: { params: { username: string, id: num
 return (
   <>
           <div className='min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800'>
-            <div className='w-3/4 py-2 mt-2 mb-10 bg-indigo-700 rounded-2xl flex flex-row items-center justify-center shadow-lg'>
-                <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Home</Link>
-                <Link href={'/'} className='mx-10 text-white font-bold hover:text-indigo-300'>Leaderboard</Link>
-            </div>
 
-            <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-10 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
+
+            <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-40 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
                 <div className="w-1/5 h-4 rounded overflow-hidden">
                     <CountdownBar onEnd={() => {
                         console.log("Time's up!");
@@ -122,7 +119,7 @@ return (
                     </div>
                 )}
                 <div className="flex justify-center mb-5">
-                    {pokemon && <img src={pokemon?.frontDefault}></img>}
+                    {pokemon && <img className='w-96 brightness-0' src={pokemon?.officialArtwork}></img>}
                 </div>
 
                 <form className="flex flex-col" onSubmit={checkUserGuess}>
