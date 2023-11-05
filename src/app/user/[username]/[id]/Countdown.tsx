@@ -5,12 +5,17 @@ import React, { useState, useEffect } from 'react';
 interface Props {
   duration?: number;  
   onEnd?: () => void;
+  active?: boolean;
 }
 
-const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd }) => {
+const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd, active=true}) => {
   const [timeLeft, setTimeLeft] = useState(duration * 10000); // now in milliseconds
 
   useEffect(() => {
+
+    if (!active) {
+      return;
+    }
     if (timeLeft <= 0) {
       onEnd?.();
       return;
@@ -21,7 +26,7 @@ const CountdownBar: React.FC<Props> = ({ duration = 1, onEnd }) => {
     }, 50);  
 
     return () => clearInterval(intervalId);
-  }, [timeLeft, onEnd]);
+  }, [timeLeft, onEnd, active]);
 
   const percentage = (timeLeft / (duration * 10000)) * 100;  
 

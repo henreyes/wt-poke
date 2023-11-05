@@ -14,7 +14,9 @@ export default function pokeid({ params }: { params: { username: string, id: num
     const [attempts, setAttemps] = useState<number>(3);
     const [gameOver, setGameOVer] = useState<Boolean>(false);
     const [result, setResult] = useState<Boolean | null>(null)
+    const [countdownActive, setCountdown] = useState<boolean>(true);
     const router = useRouter();
+
     
     useEffect(() => {
         const savedState = localStorage.getItem('attempts');
@@ -66,6 +68,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
         //setScore(score => [...score, pokemon.id]);
         updatePokeFound("test", pokemon.id);
         setResult(true);
+        setCountdown(false);
       
     } else {
         console.log("Incorrect Guess.");
@@ -95,8 +98,9 @@ return (
 
 
             <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-40 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
+                <div>{pokemon?.name}</div>
                 <div className="w-1/5 h-4 rounded overflow-hidden">
-                    <CountdownBar onEnd={() => {
+                    <CountdownBar active={countdownActive}  onEnd={() => {
                         console.log("Time's up!");
                         setGameOVer(true);
                     }} />
