@@ -11,19 +11,13 @@ generator client {
 }
 
 model User {
-  id              Int       @default(autoincrement()) @id
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  username        String    @db.VarChar(255) @unique
-  password        String    @db.VarChar(255) 
-  currentScore    Int    
-  highScore       Int
-  pokeFound       Int 
-  pokemons        UserPokemon[]
-
-  @@index([username])
+    id              Int       @default(autoincrement()) @id
+    createdAt       DateTime  @default(now())
+    username        String    @db.VarChar(255) @unique
+    pokeFound       Int 
+    pokemons        UserPokemon[]
+    @@index([username])
 }
-
 
 model AllPokemon {
     id                Int @id 
@@ -35,15 +29,13 @@ model AllPokemon {
     
 }
 
-// New join table for many-to-many relationship
 model UserPokemon {
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  pokemonId Int
-  pokemon   AllPokemon @relation(fields: [pokemonId], references: [id])
-  pokeName String    @db.VarChar(255) @default("")
+    username  String  
+    user      User     @relation(fields: [username], references: [username])
+    pokemonId Int
+    pokemon   AllPokemon @relation(fields: [pokemonId], references: [id])
 
-  @@id([userId, pokemonId]) 
-  @@index([userId])
-  @@index([pokemonId]) 
+    @@id([username, pokemonId]) 
+    @@index([username])
+    @@index([pokemonId]) 
 }
