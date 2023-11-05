@@ -3,6 +3,16 @@ import { prisma } from "@/lib/prisma";
 import { AllPokemon } from "@prisma/client";
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode, Key } from "react";
 
+
+const typeToColor: { [key: string]: string } = {
+  grass: 'bg-green-500',
+  poison: 'bg-purple-500',
+  fire: 'bg-red-500',
+  water: 'bg-blue-500',
+  electric: 'bg-yellow-500',
+  flying: "bg-sky-300"
+};
+
 export default async function Page({ params }: { params: { username: string} }) {
 
   
@@ -17,7 +27,7 @@ export default async function Page({ params }: { params: { username: string} }) 
 
     if(!userWithPokemons) return null;
     const allUserPokemons = userWithPokemons.pokemons.map(up => up.pokemon);
-    console.log(allUserPokemons);
+
 
 
     async function fetchPokemonTypes() {
@@ -25,33 +35,40 @@ export default async function Page({ params }: { params: { username: string} }) 
         const response = await fetch(pokemon.url);
         const data = await response.json();
         return { ...pokemon, types: data.types.map((typeEntry: { type: { name: any; }; }) => typeEntry.type.name) } }))
-      
       return pokemonsWithTypes;
+    };
+    const getBgClassForType = (typeName: string) => {
+      return typeToColor[typeName.toLowerCase()] || 'bg-gray-200'
     };
 
       const res= await fetchPokemonTypes();
       console.log(res);
-
-    return (
-      <>
-        <div className='min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800'>
-          <h1>{params.username}, here are the pokemon you found</h1>
-          <div className="flex flex-row flex-wrap w-3/4 items-center justify-between">
-          {res.map((pokemon, index) => (
-            <div key={index} className="bg-slate-500 px-5 rounded-xl flex flex-col items-center">
-              <h1>{pokemon.name}</h1>
-              {pokemon.types.map((typeName: string) => ( // typeName is now a string
-                <h2 key={typeName}>{typeName}</h2> // make sure to use a unique key here
+      return (
+        <>
+          <div className='min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800 py-8'>
+            <h1 className="text-white text-3xl font-bold py-6">{params.username}, here are the Pokémon you found</h1>
+            <div className="flex flex-row flex-wrap w-3/4 items-center justify-center gap-4">
+              {res.map((pokemon, index) => (
+                <div key={index} className="transform transition duration-500 hover:scale-105 hover:shadow-2xl bg-slate-700 bg-opacity-90 rounded-xl overflow-hidden w-60">
+                  <div className={` ${getBgClassForType(pokemon.types[0])} bg-opacity-20 p-4 flex justify-center items-center`}>
+                    <img src={pokemon.frontDefault} alt={pokemon.name} className="h-32 w-32 object-contain"/>
+                  </div>
+                  <div className="p-2 flex justify-evenly overflow-hidden">
+                    <h2 className=" text-xl text-white capitalize">{pokemon.name}</h2>
+                    <div className="flex justify-evenly px-2">
+                      {pokemon.types.map((typeName) => (
+                        <div key={typeName} className={`${getBgClassForType(typeName)} capitalize px-3 mr-2 py-1 rounded-2xl text-white text-sm  my-1`}>
+                       
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               ))}
-              <img src={pokemon.frontDefault} alt={pokemon.name}/>
             </div>
-          ))}
           </div>
-          
+        </>
+      )
+      
 
-
-        </div>
-
-      </>
-    )
   }
