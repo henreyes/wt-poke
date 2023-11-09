@@ -1,7 +1,10 @@
 // components/ChooseDifficulty.tsx
+// router.push(`/user/${username}/${randomNumber}`);
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+
 
 type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | 'Gen 4' | 'Gen 5';
 
@@ -19,60 +22,73 @@ interface ChooseDifficultyProps {
 }
 
 export default function ChooseDifficulty({ username, starterData }: ChooseDifficultyProps) {
+  const [hoveredDifficulty, setHoveredDifficulty] = useState<Difficulty | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
   const [inclusive, setInclusive] = useState<boolean>(false);
-  const router = useRouter();
-
-  const playGame = () => {
-    if (selectedDifficulty) {
-      const randomNumber = Math.floor(Math.random() * 100) + 1;
-      router.push(`/user/${username}/${randomNumber}`);
-    }
-  };
 
   const handleSelectDifficulty = (gen: Difficulty) => {
     setSelectedDifficulty(gen);
-    // If we are selecting a new difficulty, reset the inclusive setting
-    setInclusive(false);
+    setInclusive(false); // Reset the inclusive toggle when a new difficulty is selected
   };
 
   const toggleInclusive = () => {
     setInclusive(!inclusive);
   };
 
-  const isGenSelected = (gen: Difficulty): boolean => {
-    if (!selectedDifficulty) return false;
-    const selectedGenIndex = ['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'].indexOf(selectedDifficulty);
-    const genIndex = ['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'].indexOf(gen);
-    return inclusive ? genIndex <= selectedGenIndex : genIndex === selectedGenIndex;
+  const playGame = () => {
+    if (selectedDifficulty) {
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      // Uncomment the next line to navigate using Next.js router
+      // router.push(`/user/${username}/${randomNumber}`);
+    }
   };
 
   return (
     <div className="flex flex-col items-center space-y-4 my-8">
-      <div className="grid grid-cols-5 gap-6">
-        {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen) => (
-          <button
-            key={gen}
-            className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
-            onClick={() => handleSelectDifficulty(gen)}
-          >
-            <span className="text-white text-lg font-bold">{gen}</span>
-          </button>
+      <div className="grid grid-cols-5 gap-4">
+        {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen, index) => (
+          <div key={gen} className="group relative">
+            <button
+              className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${selectedDifficulty === gen ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
+              onClick={() => handleSelectDifficulty(gen)}
+              onMouseEnter={() => setHoveredDifficulty(gen)}
+              onMouseLeave={() => setHoveredDifficulty(null)}
+            >
+              <span className="text-white text-lg font-bold">{gen}</span>
+            </button>
+            {hoveredDifficulty === gen && (
+              <div className="absolute inset-x-0 top-full mt-2 p-4  z-10 flex flex-row bg-white  w-96 rounded-md shadow-lg text-gray-800">
+                {/* Display additional information about the hovered generation here */}
+                {/* Map through starterData and display Pokemon info */}
+                {starterData.slice(3 * index, 3 * (index + 1)).map((pokemon, idx) => (
+                  <div key={idx} className="my-2 p-2 flex justify-center items-center bg-gray-200 rounded-md">
+                    <img src={pokemon.officialArtwork} alt={pokemon.name} className="h-16 w-16 object-contain"/>
+                    <div className="ml-2">
+                      <p className="font-bold">{pokemon.name}</p>
+                      <p>{pokemon.types.join(', ')}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </div>
+
       {selectedDifficulty && (
         <div className="flex items-center space-x-2 mt-4">
           <label htmlFor="inclusive-toggle" className="text-white cursor-pointer">
             Include all generations up to {selectedDifficulty}
           </label>
-          <div className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer ${inclusive ? 'bg-blue-500' : ''}`} onClick={toggleInclusive}>
-            <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition duration-300 ease-in-out ${inclusive ? 'translate-x-6' : ''}`}></div>
+          <div className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${inclusive ? 'bg-blue-500' : 'bg-gray-300'} hover:bg-blue-200`}
+               onClick={toggleInclusive}>
+            <div className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${inclusive ? 'translate-x-6' : ''}`}></div>
           </div>
         </div>
       )}
       <button
         disabled={!selectedDifficulty}
-        className={`mt-10 text-xl px-6 py-3 rounded-full transition duration-300 ease-in-out transform ${selectedDifficulty ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-blue-300 text-gray-500 cursor-not-allowed'} shadow-md hover:shadow-lg`}
+        className={`text-xl px-6 py-3 rounded-full transition duration-300 ease-in-out ${selectedDifficulty ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-blue-300 text-gray-500 cursor-not-allowed'}`}
         onClick={playGame}
       >
         {selectedDifficulty ? 'Play Game' : 'Select Difficulty'}
