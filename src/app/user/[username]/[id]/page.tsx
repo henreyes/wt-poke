@@ -12,8 +12,6 @@ export default async function GameHome({ params }: { params: { username: string,
 
   return (
     <>
-      <div>{userStats?.username}</div>
-      <div>Poke found: {userStats?.pokeFound}</div>
       <GameComponent params={{ username: params.username,  id: Number(params.id), pokeFound: userStats?.pokeFound }} />
     </>
   )
