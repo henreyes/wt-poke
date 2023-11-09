@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { AllPokemon } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import ChooseDifficulty from "../ChooseDificulty";
-import router from "next/router";
+import router, { useRouter } from "next/navigation";
 import { useState } from "react";
 
 let pokemon: AllPokemon = {
@@ -17,8 +17,9 @@ let pokemon: AllPokemon = {
 };
 type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | null;
 
-export default  function UserPage({ params }: { params: { username: string } }) {
+export default function UserPage({ params }: { params: { username: string } }) {
     const [difficulty, setDifficulty] = useState<Difficulty>(null);
+    const router = useRouter();
 
     function getRandomNumber(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
