@@ -3,19 +3,26 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3';
+type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | 'Gen 4' | 'Gen 5';
 
 const typeToColor: { [key in Difficulty]: string } = {
   "Gen 1": 'bg-green-500',
   "Gen 2": 'bg-purple-500',
   "Gen 3": 'bg-red-500',
+  "Gen 4": 'bg-blue-500',
+  "Gen 5": 'bg-orange-500',
 };
+
+
 
 interface ChooseDifficultyProps {
   username: string;
+  starterData: any[];
 }
 
-const ChooseDifficulty: React.FC<ChooseDifficultyProps> = ({ username }) => {
+// Define the component with props destructuring
+export default function ChooseDifficulty({ username, starterData }: ChooseDifficultyProps) {
+  console.log("in client component")
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
   const router = useRouter();
 
@@ -33,7 +40,7 @@ const ChooseDifficulty: React.FC<ChooseDifficultyProps> = ({ username }) => {
   return (
     <>
       <div className="flex space-x-4 mb-10">
-        {(['Gen 1', 'Gen 2', 'Gen 3'] as Difficulty[]).map((gen) => (
+        {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen) => (
           <button
             key={gen}
             className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center ${selectedDifficulty === gen ? 'scale-125' : ''}`}
@@ -54,4 +61,4 @@ const ChooseDifficulty: React.FC<ChooseDifficultyProps> = ({ username }) => {
   );
 };
 
-export default ChooseDifficulty;
+
