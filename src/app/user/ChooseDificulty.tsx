@@ -25,21 +25,28 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Difficulty | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
   const [inclusive, setInclusive] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleSelectDifficulty = (gen: Difficulty) => {
     setSelectedDifficulty(gen);
-    setInclusive(false); // Reset the inclusive toggle when a new difficulty is selected
+    setInclusive(false); 
   };
 
   const toggleInclusive = () => {
-    setInclusive(!inclusive);
+    setInclusive(prev => !prev);
   };
+  const isGenSelected = (gen: Difficulty): boolean => {
+    if (!selectedDifficulty) return false;
+    const selectedGenIndex = ['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'].indexOf(selectedDifficulty);
+    const genIndex = ['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'].indexOf(gen);
+    return inclusive ? genIndex <= selectedGenIndex : genIndex === selectedGenIndex;
+  };
+
 
   const playGame = () => {
     if (selectedDifficulty) {
       const randomNumber = Math.floor(Math.random() * 100) + 1;
-      // Uncomment the next line to navigate using Next.js router
-      // router.push(`/user/${username}/${randomNumber}`);
+      router.push(`/user/${username}/${randomNumber}`);
     }
   };
 
@@ -49,8 +56,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
         {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen, index) => (
           <div key={gen} className="group relative">
             <button
-              className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${selectedDifficulty === gen ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
-              onClick={() => handleSelectDifficulty(gen)}
+            className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}              onClick={() => handleSelectDifficulty(gen)}
               onMouseEnter={() => setHoveredDifficulty(gen)}
               onMouseLeave={() => setHoveredDifficulty(null)}
             >
@@ -58,8 +64,6 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
             </button>
             {hoveredDifficulty === gen && (
               <div className="absolute inset-x-0 top-full mt-2 p-4  z-10 flex flex-row bg-white  w-96 rounded-md shadow-lg text-gray-800">
-                {/* Display additional information about the hovered generation here */}
-                {/* Map through starterData and display Pokemon info */}
                 {starterData.slice(3 * index, 3 * (index + 1)).map((pokemon, idx) => (
                   <div key={idx} className="my-2 p-2 flex justify-center items-center bg-gray-200 rounded-md">
                     <img src={pokemon.officialArtwork} alt={pokemon.name} className="h-16 w-16 object-contain"/>
@@ -96,3 +100,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
     </div>
   );
 };
+
+
+
+
