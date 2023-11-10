@@ -18,12 +18,13 @@ const typeToColor: { [key in Difficulty]: string } = {
 
 interface ChooseDifficultyProps {
   username: string;
-  starterData: any[]; // Replace 'any' with the appropriate type
+  starterData: any[]; 
 }
 
 export default function ChooseDifficulty({ username, starterData }: ChooseDifficultyProps) {
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Difficulty | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+  const [displayGenInfo, setDisplayGenInfo] = useState<boolean>(false)
   const [inclusive, setInclusive] = useState<boolean>(false);
   const router = useRouter();
 
@@ -51,6 +52,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
   };
 
   return (
+    
     <div className="flex flex-col items-center space-y-4 my-8">
       <div className="grid grid-cols-5 gap-4">
         {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen, index) => (
@@ -63,14 +65,10 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
               <span className="text-white text-lg font-bold">{gen}</span>
             </button>
             {hoveredDifficulty === gen && (
-              <div className="absolute inset-x-0 top-full mt-2 p-4  z-10 flex flex-row bg-white  w-96 rounded-md shadow-lg text-gray-800">
+              <div className="absolute inset-x-0 top-full mt-2 p-4  z-10 flex flex-row bg-white  w-96  shadow-lg text-gray-800 rounded-3xl">
                 {starterData.slice(3 * index, 3 * (index + 1)).map((pokemon, idx) => (
-                  <div key={idx} className="my-2 p-2 flex justify-center items-center bg-gray-200 rounded-md">
-                    <img src={pokemon.officialArtwork} alt={pokemon.name} className="h-16 w-16 object-contain"/>
-                    <div className="ml-2">
-                      <p className="font-bold">{pokemon.name}</p>
-                      <p>{pokemon.types.join(', ')}</p>
-                    </div>
+                  <div key={idx} className="my-2 p-2 flex justify-evenly items-center  bg-gray-200 rounded-2xl mx-3 ">
+                    <img src={pokemon.officialArtwork} alt={pokemon.name} className="h-16 w-16 mx-5 object-contain"/>
                   </div>
                 ))}
               </div>
@@ -78,9 +76,10 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
           </div>
         ))}
       </div>
+      
 
       {selectedDifficulty && (
-        <div className="flex items-center space-x-2 mt-4">
+        <div className="flex items-center space-x-2">
           <label htmlFor="inclusive-toggle" className="text-white cursor-pointer">
             Include all generations up to {selectedDifficulty}
           </label>
@@ -90,9 +89,11 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
           </div>
         </div>
       )}
+
+      <div className="p-20 "></div>
       <button
         disabled={!selectedDifficulty}
-        className={`text-xl px-6 py-3 rounded-full transition duration-300 ease-in-out ${selectedDifficulty ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-blue-300 text-gray-500 cursor-not-allowed'}`}
+        className={`text-xl px-6 py-3 rounded-full transition duration-300 ease-in-out ${selectedDifficulty ? 'bg-indigo-500 hover:bg-indigo-600 text-white' : 'bg-indigo-300 text-gray-500 cursor-not-allowed'}`}
         onClick={playGame}
       >
         {selectedDifficulty ? 'Play Game' : 'Select Difficulty'}

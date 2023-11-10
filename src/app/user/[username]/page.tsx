@@ -47,7 +47,8 @@ export default async function UserPage({ params }: { params: { username: string 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800 justify-center">
 
-      <h1 className="font-bold text-4xl mb-20">Game configuration</h1>
+      <h1 className="font-bold text-5xl mb-10 text-gray-100">Game configuration</h1>
+      <h3 className="text-gray-400 mb-4">Choose the generation of pokemon you wish to guess</h3>
 
       <ChooseDifficulty username={params.username} starterData={starterData} />
     </div>
