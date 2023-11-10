@@ -9,7 +9,7 @@ export default async function Home() {
 
 
   return (
-    <main className="flex min-h-screen flex-col justify-center items-center  bg-gray-950 ">
+    <main className="min-h-screen flex flex-col items-center bg-gradient-to-t from-gray-900 to-slate-800 justify-center">
       <div className="  flex flex-col min-w-full rounded-xl items-center py-10 text-gray-300 ">
         <h1 className="block font-sans text-3xl font-semibold leading-tight tracking-normal text-inherit antialiased ">
           Who's that Pokemon
