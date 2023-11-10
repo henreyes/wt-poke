@@ -5,12 +5,18 @@ import Link from "next/link";
 
 
 const typeToColor: { [key: string]: string } = {
-  grass: 'bg-green-500',
-  poison: 'bg-purple-500',
-  fire: 'bg-red-500',
-  water: 'bg-blue-500',
+  grass: 'bg-green-500 hover:bg-green-700',
+  poison: 'bg-purple-500 hover:bg-purple-700',
+  fire: 'bg-red-500 hover:bg-red-700',
+  water: 'bg-blue-500 hover:bg-blue-700',
   electric: 'bg-yellow-500',
-  flying: "bg-sky-300"
+  flying: "bg-blue-200",
+  fighting: "bg-orange-800",
+  normal: "bg-gray-400",
+  psychic: "bg-pink-400",
+  fairy: "bg-pink-200",
+  dark: "bg-stone-900"
+
 };
 
 export default async function Page({ params }: { params: { username: string} }) {
@@ -49,34 +55,33 @@ export default async function Page({ params }: { params: { username: string} }) 
             <h1 className="text-white self-start ml-28 text-3xl py-24">{params.username}, here are the Pokémon you found</h1>
             <div className="flex flex-row flex-wrap w-full items-center justify-center gap-4">
             {res.map((pokemon, index) => (
-  <div key={index} className="transform transition duration-500 hover:scale-105 hover:shadow-2xl bg-slate-700 bg-opacity-90 rounded-xl overflow-hidden w-60 flex">
-    <img src={pokemon.frontDefault} alt={pokemon.name} className="w-24 h-24 object-contain"/>
-    <div className="p-2 flex flex-col justify-center items-center">
-      <h2 className="text-xl  text-slate-200 capitalize font-light mb-2">{pokemon.name}</h2>
-      <div className="flex flex-row flex-nowrap overflow-hidden">
-        {pokemon.types.map((typeName: string) => (
-          <div key={typeName} className={`${getBgClassForType(typeName)} capitalize px-2 py-1 rounded-2xl text-sm my-1 mr-1`}>
-            {typeName}
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-))}
+            <div key={index} className="transform transition duration-500 hover:scale-105 hover:shadow-2xl bg-slate-700 bg-opacity-90 rounded-xl overflow-hidden w-60 flex">
+              <img src={pokemon.frontDefault} alt={pokemon.name} className="w-24 h-24 object-contain"/>
+              <div className="p-2 flex flex-col justify-center items-center">
+                <h2 className="text-xl  text-slate-200 capitalize font-light mb-2">{pokemon.name}</h2>
+                <div className="flex flex-row flex-nowrap overflow-hidden">
+                  {pokemon.types.map((typeName: string) => (
+                    <div key={typeName} className={`${getBgClassForType(typeName)} capitalize px-2 py-1 rounded-2xl text-sm my-1 mr-1`}>
+                      {typeName}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+              ))}
             </div>
 
           <div className="flex flex-row w-2/5 justify-between items-center p-24">
             <div>
-            <Link href={"/"} className="p-4 w-1/2 bg-gradient-to-b from-indigo-300 to-indigo-400 rounded-2xl text-center">Play again</Link>
+              <Link href={"/"} className="p-4 w-1/2 bg-gradient-to-b from-indigo-300 to-indigo-400 rounded-2xl text-center">Play again</Link>
             </div>
             <div>
               <Link href={"/"} className="p-4 w-1/2 bg-gradient-to-b from-indigo-700 to-indigo-800 rounded-2xl text-center">View Leaderboard</Link>
-
             </div>
           </div>
-          </div>
-        </>
-      )
+        </div>
+      </>
+    )
       
 
   }
