@@ -27,7 +27,7 @@ model AllPokemon {
     officialArtwork   String
     url               String
     users             UserPokemon[]
-    generation        String 
+    generation        String  
     
 }
 

@@ -9,6 +9,7 @@ type pokeDb =  {
     frontDefault: string;
     officialArtwork: string;
     url: string;
+    generation: string;
 };
 
 async function main ()  {
@@ -31,7 +32,7 @@ async function main ()  {
           return "six";
       } else {
           return "seven"; 
-    }
+      }
       
     }
 
