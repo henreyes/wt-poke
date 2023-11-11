@@ -19,6 +19,7 @@ model User {
     @@index([username])
 }
 
+
 model AllPokemon {
     id                Int @id 
     name              String 
@@ -26,8 +27,10 @@ model AllPokemon {
     officialArtwork   String
     url               String
     users             UserPokemon[]
+    generation        String 
     
 }
+
 
 model UserPokemon {
     username  String  
