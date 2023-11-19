@@ -37,8 +37,9 @@ export default function pokeid({ params }: { params: { username: string, id: num
 
     function resetStats () {
         console.log("rest stats")
-        setResult(null);
-        router.push(`/user/test/${ getRandomNumber(1, 100)}`)
+     
+        const randomNumber = getRandomNumber(495, 601);
+        router.push(`/user/${params.username}/${params.gen}/${randomNumber}`);
 
     }
 
@@ -69,6 +70,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
         updatePokeFound("Henry", pokemon.id);
         setResult(true);
         setCountdown(false);
+       
       
     } else {
         console.log("Incorrect Guess.");
@@ -166,7 +168,7 @@ return (
           <button 
             className="p-3 bg-yellow-600 rounded-lg hover:bg-yellow-700 focus:outline-none focus:bg-yellow-800 transition-all duration-300 transform hover:scale-105"
             onClick={resetStats}
-            disabled={Boolean(result)}
+      
           >
             Next poke
           </button>
