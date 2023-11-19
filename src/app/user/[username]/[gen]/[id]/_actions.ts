@@ -24,6 +24,15 @@ export async function updatePokeFound(username: string, pokeId: number){
             }
         }
     });
+
+    const newUserPokemon = await prisma.userPokemon.create({
+        data: {
+          username: username,
+          pokemonId: pokeId,
+        },
+      });
+
+
     revalidatePath("/");
     return updatedUser;
 }

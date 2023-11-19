@@ -67,7 +67,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
     if (pokemon && guess.toLowerCase() === pokemon.name.toLowerCase()) {
         console.log("Correct Guess!");
         //setScore(score => [...score, pokemon.id]);
-        updatePokeFound("Henry", pokemon.id);
+        updatePokeFound(params.username, pokemon.id);
         setResult(true);
         setCountdown(false);
        
