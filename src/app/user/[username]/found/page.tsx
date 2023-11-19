@@ -20,8 +20,6 @@ const typeToColor: { [key: string]: string } = {
 };
 
 export default async function Page({ params }: { params: { username: string} }) {
-
-  
   const userWithPokemons = await prisma.user.findUnique({
     where: {username: params.username },
     include: {
@@ -71,7 +69,7 @@ export default async function Page({ params }: { params: { username: string} }) 
               ))}
             </div>
 
-          <div className="flex flex-row w-2/5 justify-between items-center p-24">
+          <div className="flex flex-row min-w-2/5 justify-between items-center p-24">
             <div>
               <Link href={"/"} className="p-4 w-1/2 bg-gradient-to-b from-indigo-300 to-indigo-400 rounded-2xl text-center">Play again</Link>
             </div>

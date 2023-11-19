@@ -16,6 +16,14 @@ const typeToColor: { [key in Difficulty]: string } = {
   "Gen 5": 'bg-orange-500',
 };
 
+const schemaMatch: { [key in Difficulty]: string } = {
+  "Gen 1": 'one',
+  "Gen 2": 'two',
+  "Gen 3": 'three',
+  "Gen 4": 'four',
+  "Gen 5": 'five',
+};
+
 interface ChooseDifficultyProps {
   username: string;
   starterData: any[]; 
@@ -24,7 +32,6 @@ interface ChooseDifficultyProps {
 export default function ChooseDifficulty({ username, starterData }: ChooseDifficultyProps) {
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Difficulty | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
-  const [displayGenInfo, setDisplayGenInfo] = useState<boolean>(false)
   const [inclusive, setInclusive] = useState<boolean>(false);
   const router = useRouter();
 
@@ -46,8 +53,25 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
 
   const playGame = () => {
     if (selectedDifficulty) {
-      const randomNumber = Math.floor(Math.random() * 100) + 1;
-      router.push(`/user/${username}/${randomNumber}`);
+      let randomNumber = 0
+      if (selectedDifficulty === "Gen 1"){
+        randomNumber = Math.floor(Math.random() * 150) + 1;
+      }
+      if (selectedDifficulty === "Gen 2"){
+        randomNumber = Math.floor(Math.random() * (251 - 152 + 1)) + 152;
+      }
+      if (selectedDifficulty === "Gen 3"){
+        randomNumber = Math.floor(Math.random() * (386 - 252 + 1)) + 252;
+      }
+      if (selectedDifficulty === "Gen 4"){
+        randomNumber = Math.floor(Math.random() * (495 - 387 + 1)) + 387;
+      }
+      else {
+        randomNumber = Math.floor(Math.random() * (649 - 495 + 1)) + 495;
+   
+      }
+
+      router.push(`/user/${username}/${schemaMatch[selectedDifficulty]}/${randomNumber}`);
     }
   };
 
@@ -58,7 +82,8 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
         {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen, index) => (
           <div key={gen} className="group relative">
             <button
-            className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}              onClick={() => handleSelectDifficulty(gen)}
+            className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
+              onClick={() => handleSelectDifficulty(gen)}
               onMouseEnter={() => setHoveredDifficulty(gen)}
               onMouseLeave={() => setHoveredDifficulty(null)}
             >
@@ -84,7 +109,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
             Include all generations up to {selectedDifficulty}
           </label>
           <div className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${inclusive ? 'bg-blue-500' : 'bg-gray-300'} hover:bg-blue-200`}
-               onClick={toggleInclusive}>
+            onClick={toggleInclusive}>
             <div className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${inclusive ? 'translate-x-6' : ''}`}></div>
           </div>
         </div>

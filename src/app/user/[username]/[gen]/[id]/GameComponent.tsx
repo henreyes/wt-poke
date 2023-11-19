@@ -7,7 +7,7 @@ import { getPokemon, updatePokeFound } from './_actions'
 import CountdownBar from './Countdown'
 import AttemptsIndicator from './Attempts'
 
-export default function pokeid({ params }: { params: { username: string, id: number, pokeFound: number} }) {
+export default function pokeid({ params }: { params: { username: string, id: number, gen: string, pokeFound: number} }) {
     const [startGame, setGame] = useState<Boolean>(false);
     const [pokemon, setPokemon] = useState<AllPokemon | null >(null);
     const [guess, setGuess] = useState<String>("");
@@ -66,7 +66,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
     if (pokemon && guess.toLowerCase() === pokemon.name.toLowerCase()) {
         console.log("Correct Guess!");
         //setScore(score => [...score, pokemon.id]);
-        updatePokeFound("test", pokemon.id);
+        updatePokeFound("Henry", pokemon.id);
         setResult(true);
         setCountdown(false);
       
@@ -110,6 +110,7 @@ return (
 
             <div className="w-full max-w-2xl min-w-min p-8 mx-auto mt-40 flex items-center justify-evenly bg-slate-900 rounded-xl shadow-md">
                 <div>{pokemon?.name}</div>
+                <div>Gen: {params.gen}</div>
                 <div className="w-1/5 h-4 rounded overflow-hidden">
                     <CountdownBar active={countdownActive}  onEnd={() => {
                         console.log("Time's up!");
@@ -128,7 +129,7 @@ return (
                 <div className="flex justify-center mb-5">
                     {pokemon && <img 
                                 className={`w-96 transition-all duration-500 ${result ? 'brightness-100' : 'brightness-0'}`}
-                                src={pokemon?.officialArtwork}>
+                                src={pokemon?.officialArtwork} alt='image'>
                                 
                                 </img>}
                 </div>
