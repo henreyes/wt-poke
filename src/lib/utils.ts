@@ -2,30 +2,54 @@ export function getRandomNumber(gen: string, inclu: boolean) {
     let min = 0
     let max = 0
     console.log("gen inside randomNumber", gen)
+        if(inclu){
+            if (gen === "one"){
+                min = 0
+                max = 150                
+              }
+              else if (gen === "two"){
+                min = 0
+                max = 251 
+              }
+              else if (gen === "three"){
+                min = 0
+                max = 386 
+              }
+              else if (gen === "four"){
+                min =  0
+                max = 495
+              }
+              else {
+                min = 0
+                max = 649 
+              }
 
-        if (gen === "one"){
-            min = 0
-            max = 150
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-            
-          }
-          else if (gen === "two"){
-            min = 152
-            max = 251 
-            
-          }
-          else if (gen === "three"){
-            min = 252
-            max = 386 
-          }
-          else if (gen === "four"){
-            min =  387
-            max = 495
-          }
-          else {
-            min = 496
-            max = 649 
-          }
+        }
+        else {
+            if (gen === "one"){
+                min = 0
+                max = 150                
+              }
+              else if (gen === "two"){
+                min = 152
+                max = 251 
+                
+              }
+              else if (gen === "three"){
+                min = 252
+                max = 386 
+              }
+              else if (gen === "four"){
+                min =  387
+                max = 495
+              }
+              else {
+                min = 496
+                max = 649 
+              }
+
+        }
+       
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 export type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | 'Gen 4' | 'Gen 5';
