@@ -32,6 +32,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
   const playGame = () => {
     if (selectedDifficulty) {
       let gen = schemaMatch[selectedDifficulty]
+      console.log("befefore the random function," ,gen);
       let randomNumber = getRandomNumber(gen, inclusive)
       console.log(selectedDifficulty)
       router.push(`/user/${username}/${gen + "-" + String(inclusive)}/${randomNumber}`);

@@ -47,4 +47,6 @@ export async function getPokemon(pokeId: number) {
 
 }
 
+
+
   

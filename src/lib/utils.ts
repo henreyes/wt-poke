@@ -9,15 +9,16 @@ export function getRandomNumber(gen: string, inclu: boolean) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
             
           }
-          if (gen === "two"){
+          else if (gen === "two"){
             min = 152
             max = 251 
+            
           }
-          if (gen === "three"){
+          else if (gen === "three"){
             min = 252
             max = 386 
           }
-          if (gen === "four"){
+          else if (gen === "four"){
             min =  387
             max = 495
           }
@@ -31,7 +32,7 @@ export type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | 'Gen 4' | 'Gen 5';
 
 export const  difficultyToColor: { [key in Difficulty]: string } = {
     "Gen 1": 'bg-green-500',
-    "Gen 2": 'bg-purple-500',
+    "Gen 2": 'bg-yellow-500',
     "Gen 3": 'bg-red-500',
     "Gen 4": 'bg-blue-500',
     "Gen 5": 'bg-orange-500',
@@ -45,12 +46,20 @@ export const schemaMatch: { [key in Difficulty]: string } = {
     "Gen 5": 'five',
 };
 
-;
+
 export const typeToColor: { [key: string]: string } = {
-    grass: 'bg-green-500',
-    poison: 'bg-purple-500',
-    fire: 'bg-red-500',
-    water: 'bg-blue-500',
+    // to do: custom colors 
+    grass: 'bg-green-500 hover:bg-green-700',
+    poison: 'bg-purple-500 hover:bg-purple-700',
+    fire: 'bg-red-500 hover:bg-red-700',
+    water: 'bg-blue-500 hover:bg-blue-700',
     electric: 'bg-yellow-500',
-    flying: "bg-sky-300"
+    dark: 'bg-slate-900',
+    ground: 'bg-orange-950',
+  
+};
+
+export const getBgClassForType = (typeName: string) => {
+    return typeToColor[typeName.toLowerCase()] || 'bg-gray-200'
   };
+

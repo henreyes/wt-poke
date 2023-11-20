@@ -1,23 +1,26 @@
 
 import { prisma } from "@/lib/prisma";
-import { AllPokemon } from "@prisma/client";
+
+
 import Link from "next/link";
 
-
-const typeToColor: { [key: string]: string } = {
+export const typeToColor: { [key: string]: string } = {
+  // to do: custom colors 
   grass: 'bg-green-500 hover:bg-green-700',
   poison: 'bg-purple-500 hover:bg-purple-700',
   fire: 'bg-red-500 hover:bg-red-700',
   water: 'bg-blue-500 hover:bg-blue-700',
   electric: 'bg-yellow-500',
-  flying: "bg-blue-200",
-  fighting: "bg-orange-800",
-  normal: "bg-gray-400",
-  psychic: "bg-pink-400",
-  fairy: "bg-pink-200",
-  dark: "bg-stone-900"
+  dark: 'bg-bermuda',
+  ground: 'bg-brown-900',
+
 
 };
+
+export const getBgClassForType = (typeName: string) => {
+  return typeToColor[typeName.toLowerCase()] || 'bg-gray-200'
+};
+
 
 export default async function Page({ params }: { params: { username: string} }) {
   const userWithPokemons = await prisma.user.findUnique({
@@ -32,17 +35,12 @@ export default async function Page({ params }: { params: { username: string} }) 
     if(!userWithPokemons) return null;
     const allUserPokemons = userWithPokemons.pokemons.map(up => up.pokemon);
 
-
-
     async function fetchPokemonTypes() {
       const pokemonsWithTypes = await Promise.all(allUserPokemons.map(async (pokemon) => {
         const response = await fetch(pokemon.url);
         const data = await response.json();
         return { ...pokemon, types: data.types.map((typeEntry: { type: { name: any; }; }) => typeEntry.type.name) } }))
       return pokemonsWithTypes;
-    };
-    const getBgClassForType = (typeName: string) => {
-      return typeToColor[typeName.toLowerCase()] || 'bg-gray-200'
     };
 
       const res= await fetchPokemonTypes();
