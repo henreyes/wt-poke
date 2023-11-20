@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { getPokemon, updatePokeFound } from './_actions'
 import CountdownBar from './Countdown'
 import AttemptsIndicator from './Attempts'
+import { getRandomNumber } from '@/src/lib/utils'
 
 export default function pokeid({ params }: { params: { username: string, id: number, gen: string, pokeFound: number} }) {
     const [startGame, setGame] = useState<Boolean>(false);
@@ -29,18 +30,12 @@ export default function pokeid({ params }: { params: { username: string, id: num
         
     
 
-    function getRandomNumber(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
-      
-      const randomNumber = getRandomNumber(1, 100);
-
     function resetStats () {
         console.log("rest stats")
-     
-        const randomNumber = getRandomNumber(495, 601);
+        let constr = params.gen.split("-")
+        const randomNumber = getRandomNumber(constr[0], Boolean(constr[1]));
         router.push(`/user/${params.username}/${params.gen}/${randomNumber}`);
-
+     
     }
 
     if(startGame === false){
@@ -59,18 +54,13 @@ export default function pokeid({ params }: { params: { username: string, id: num
     
     }
 
-  function rerouteClient()  {console.log("button works");}
-
   function checkUserGuess(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-
     if (pokemon && guess.toLowerCase() === pokemon.name.toLowerCase()) {
         console.log("Correct Guess!");
-        //setScore(score => [...score, pokemon.id]);
         updatePokeFound(params.username, pokemon.id);
         setResult(true);
         setCountdown(false);
-       
       
     } else {
         console.log("Incorrect Guess.");
@@ -87,7 +77,7 @@ export default function pokeid({ params }: { params: { username: string, id: num
         }
        
     }
-    
+  
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {

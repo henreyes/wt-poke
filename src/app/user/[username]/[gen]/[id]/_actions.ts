@@ -7,7 +7,6 @@ export async function getStats(username: string){
     const user = await prisma.user.findFirst({
         where: {
             username: username,
-
         }
     })
     return user;
@@ -24,7 +23,6 @@ export async function updatePokeFound(username: string, pokeId: number){
             }
         }
     });
-
     const newUserPokemon = await prisma.userPokemon.create({
         data: {
           username: username,

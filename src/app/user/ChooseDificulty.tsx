@@ -1,28 +1,7 @@
-// components/ChooseDifficulty.tsx
-// router.push(`/user/${username}/${randomNumber}`);
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-
-
-type Difficulty = 'Gen 1' | 'Gen 2' | 'Gen 3' | 'Gen 4' | 'Gen 5';
-
-const typeToColor: { [key in Difficulty]: string } = {
-  "Gen 1": 'bg-green-500',
-  "Gen 2": 'bg-purple-500',
-  "Gen 3": 'bg-red-500',
-  "Gen 4": 'bg-blue-500',
-  "Gen 5": 'bg-orange-500',
-};
-
-const schemaMatch: { [key in Difficulty]: string } = {
-  "Gen 1": 'one',
-  "Gen 2": 'two',
-  "Gen 3": 'three',
-  "Gen 4": 'four',
-  "Gen 5": 'five',
-};
+import { Difficulty, difficultyToColor, getRandomNumber, schemaMatch } from '@/src/lib/utils';
 
 interface ChooseDifficultyProps {
   username: string;
@@ -50,28 +29,12 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
     return inclusive ? genIndex <= selectedGenIndex : genIndex === selectedGenIndex;
   };
 
-
   const playGame = () => {
     if (selectedDifficulty) {
-      let randomNumber = 0
-      if (selectedDifficulty === "Gen 1"){
-        randomNumber = Math.floor(Math.random() * 150) + 1;
-      }
-      if (selectedDifficulty === "Gen 2"){
-        randomNumber = Math.floor(Math.random() * (251 - 152 + 1)) + 152;
-      }
-      if (selectedDifficulty === "Gen 3"){
-        randomNumber = Math.floor(Math.random() * (386 - 252 + 1)) + 252;
-      }
-      if (selectedDifficulty === "Gen 4"){
-        randomNumber = Math.floor(Math.random() * (495 - 387 + 1)) + 387;
-      }
-      else {
-        randomNumber = Math.floor(Math.random() * (649 - 495 + 1)) + 495;
-   
-      }
-
-      router.push(`/user/${username}/${schemaMatch[selectedDifficulty]}/${randomNumber}`);
+      let gen = schemaMatch[selectedDifficulty]
+      let randomNumber = getRandomNumber(gen, inclusive)
+      console.log(selectedDifficulty)
+      router.push(`/user/${username}/${gen + "-" + String(inclusive)}/${randomNumber}`);
     }
   };
 
@@ -82,7 +45,7 @@ export default function ChooseDifficulty({ username, starterData }: ChooseDiffic
         {(['Gen 1', 'Gen 2', 'Gen 3', 'Gen 4', 'Gen 5'] as Difficulty[]).map((gen, index) => (
           <div key={gen} className="group relative">
             <button
-            className={`w-24 h-24 ${typeToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
+            className={`w-24 h-24 ${difficultyToColor[gen]} rounded-full cursor-pointer flex items-center justify-center transform transition duration-300 ease-out shadow-lg ${isGenSelected(gen) ? 'ring-4 ring-blue-300' : 'opacity-50'}`}
               onClick={() => handleSelectDifficulty(gen)}
               onMouseEnter={() => setHoveredDifficulty(gen)}
               onMouseLeave={() => setHoveredDifficulty(null)}
