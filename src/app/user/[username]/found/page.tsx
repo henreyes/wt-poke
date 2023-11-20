@@ -9,10 +9,19 @@ export const typeToColor: { [key: string]: string } = {
   grass: 'bg-green-500 hover:bg-green-700',
   poison: 'bg-purple-500 hover:bg-purple-700',
   fire: 'bg-red-500 hover:bg-red-700',
-  water: 'bg-blue-500 hover:bg-blue-700',
+  water: 'bg-blue-700 hover:bg-blue-750',
   electric: 'bg-yellow-500',
-  dark: 'bg-bermuda',
+  dark: 'bg-neutral-700',
   ground: 'bg-brown-900',
+  psychic: 'bg-psychic-500',
+  flying: 'bg-blue-400',
+  bug: 'bg-bug-500',
+  fighting: "bg-orange-900",
+  ice: "bg-blue-300",
+  normal: "bg-gray-400",
+  steel: "bg-stone-500",
+  rock: "bg-rock-500",
+  ghost: "bg-purple-900",
 
 
 };

@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+
         brown: {
           50: '#fdf8f6',
           100: '#f2e8e5',
@@ -22,6 +23,15 @@ const config: Config = {
           800: '#846358',
           900: '#43302b',
         },
+        psychic: {
+          500: '#F95587'
+        },
+        bug: {
+          500: '#A6B91A'
+        },
+        rock: {
+          500: '#655353'
+        }
       }
     },
    
